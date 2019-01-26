@@ -1,8 +1,4 @@
-git init
-git add README.md
-git commit -m "first commit"
-git remote add origin https://github.com/uaman89/learn-mljs.git
-git push -u origin master,TV,radio,newspaper,sales
+,TV,radio,newspaper,sales
 1,230.1,37.8,69.2,22.1
 2,44.5,39.3,45.1,10.4
 3,17.2,45.9,69.3,9.3
