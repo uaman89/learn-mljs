@@ -2,6 +2,13 @@ const ml  = require('ml-regression');
 const csv = require('csvtojson');
 const SLR = ml.SLR; // Simple Linear Regression
 
+const readline = require('readline'); // For user prompt to allow predictions
+
+const rl = readline.createInterface({
+    input: process.stdin, 
+    output: process.stdout
+});
+
 const csvFilePath = 'advertising.csv'; // Data
 let csvData       = [], // parsed Data
       X           = [], // Input
@@ -23,14 +30,26 @@ function dressData() {
      * we need to parse the String value as a Float.
      */
     csvData.forEach((row) => {
-        const radio = f(row.radio);
-        X.push(radio);
+        X.push(f(row.radio));
         y.push(f(row.sales));
     });
 }
 
 function f(s) {
     return parseFloat(s, 10);
+}
+
+function predictOutput() {
+    rl.question('Enter input X for prediction (Press CTRL+C to exit) : ', (answer) => {
+        console.log(`At X = ${answer}, y =  ${regressionModel.predict(f(answer))}`);
+        predictOutput();
+    });
+}
+
+function performRegression() {
+    regressionModel = new SLR(X, y); // Train the model on training data
+    console.log(regressionModel.toString(3));
+    predictOutput();
 }
 
 csv().fromFile(csvFilePath)
@@ -42,5 +61,5 @@ csv().fromFile(csvFilePath)
         dressData(); // To get data points from JSON Objects
         console.log('x', X);
         console.log('y', y);
-        // performRegression();
+        performRegression();
     });
